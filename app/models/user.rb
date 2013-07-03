@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :short_urls
 
+
   def self.find_user(email)
     User.where(:email => email)
   end
@@ -11,6 +12,10 @@ class User < ActiveRecord::Base
     u.username = username
     u.save
     u
+  end
+
+  def all_short_urls
+    ShortURL.find(:all, :conditions => ['user_id = ?', @id])
   end
 
 end
