@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class Visit < ActiveRecord::Base
   has_many :short_urls
 
   def self.find_user(email)
