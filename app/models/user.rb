@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
   validates :email, :uniqueness => true
   validates :email, :username, :presence => true
 
+  validate :url_time
+
+
   def self.find_user(email)
     User.where(:email => email)
   end
@@ -22,5 +25,17 @@ class User < ActiveRecord::Base
   def all_short_urls
     ShortURL.find(:all, :conditions => ['user_id = ?', @id])
   end
+
+  def url_time
+    user_id = self.id
+    submitted_url_count = VisitsPerUser.find(:all,
+      :conditions => ['visits_per_users.created_at < ? AND user_id = ?',
+      1.minutes.ago, user_id]).length
+    if submitted_url_count > 5
+      raise 'STOP SPAMMING'
+    end
+
+  end
+
 
 end

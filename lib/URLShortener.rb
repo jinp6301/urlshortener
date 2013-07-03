@@ -14,6 +14,7 @@ class URLShortener
 
   def self.shorten(address=nil)
     raise 'No url given' if address.nil?
+    @current_user.url_time
     short_url = SecureRandom.urlsafe_base64(6)
     ShortURL.add_url(short_url, LongURL.find_or_create(address), @current_user.id)
   end
