@@ -7,6 +7,9 @@ class Tagging < ActiveRecord::Base
     t.save
   end
 
-  def self.find_popular_by_tag
+  def self.find_popular_by_tag_id(tag_id)
+
+    Tagging.find_by_sql("SELECT short_url_id, COUNT(short_url_id) FROM 'taggings' WHERE tag_id = #{tag_id} GROUP BY short_url_id ORDER BY COUNT(short_url_id) DESC LIMIT 1")[0].short_url_id
+  end
 
 end

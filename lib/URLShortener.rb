@@ -45,9 +45,10 @@ class URLShortener
     Tagging.add_tagging(tag_id, short_url_id)
   end
 
-  def self.find_popular_by_tag(tag)
-
-
+  def self.find_popular_by_tag
+    TagTopics.show_tag_topics
+    tag_id = gets.chomp
+    ShortURL.find(Tagging.find_popular_by_tag_id(tag_id))
   end
 
 end
