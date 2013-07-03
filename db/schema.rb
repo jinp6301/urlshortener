@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130703185331) do
+ActiveRecord::Schema.define(:version => 20130703194426) do
 
   create_table "comments", :force => true do |t|
     t.string  "comment"
@@ -34,8 +34,7 @@ ActiveRecord::Schema.define(:version => 20130703185331) do
   end
 
   create_table "tag_topics", :force => true do |t|
-    t.string  "tag_topic"
-    t.integer "short_url_id"
+    t.string "tag_topic"
   end
 
   create_table "taggings", :force => true do |t|

@@ -1,11 +1,14 @@
 class LongURL < ActiveRecord::Base
   has_many :short_urls
-  has_one :users
+
+  validates :long_url, :presence => true
+
+  validates :long_url, :length => { :maximum => 10 }
 
   def self.add_url(address)
     s = LongURL.new
     s.long_url = address
-    s.save
+    raise 'address is too long' unless s.save
     s.id
   end
 

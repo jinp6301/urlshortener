@@ -1,5 +1,7 @@
 class Visit < ActiveRecord::Base
 
+  belongs_to :short_urls
+
   def self.add_visit(short_url_id)
     x = Visit.find_by_short_url_id(short_url_id)
     if x.nil?
@@ -7,11 +9,11 @@ class Visit < ActiveRecord::Base
       y.short_url_id = short_url_id
       y.unique = 1
       y.visit = 1
-      y.save
+      y.save!
     else
       x.visit += 1
       x.unique = Visit.unique_visits(short_url_id)
-      x.save
+      x.save!
     end
   end
 

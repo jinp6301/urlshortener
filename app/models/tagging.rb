@@ -1,5 +1,8 @@
 class Tagging < ActiveRecord::Base
 
+  belongs_to :tag_topics
+  belongs_to :short_urls
+
   def self.add_tagging(tag_id, short_url_id)
     t = Tagging.new
     t.tag_id = tag_id

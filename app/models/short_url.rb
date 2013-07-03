@@ -1,13 +1,16 @@
 class ShortURL < ActiveRecord::Base
-  has_one :long_urls
-  has_one :users
+  belongs_to :long_urls
+  belongs_to :users
+
+  validates :short_url, :presence => true
+
 
   def self.add_url(short_url, long_url_id, user_id)
     s = ShortURL.new
     s.short_url = short_url
     s.long_url_id = long_url_id
     s.user_id = user_id
-    s.save
+    s.save!
     s
   end
 
@@ -17,7 +20,7 @@ class ShortURL < ActiveRecord::Base
  #    self.user_id = user_id unless options['user_id'].nil?
 
     self.long_url_id = long_url_id
-    self.save
+    self.save!
   end
 
   def self.find_url(shortened)

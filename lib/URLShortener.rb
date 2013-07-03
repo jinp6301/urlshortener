@@ -3,7 +3,7 @@ class URLShortener
 
   attr_accessor :current_user
 
-  def self.login(email, username = nil)
+  def self.login(email, username)
     if User.find_by_email(email).nil?
       @current_user = User.add_user(email, username)
     else
@@ -12,7 +12,8 @@ class URLShortener
 
   end
 
-  def self.shorten(address)
+  def self.shorten(address=nil)
+    raise 'No url given' if address.nil?
     short_url = SecureRandom.urlsafe_base64(6)
     ShortURL.add_url(short_url, LongURL.find_or_create(address), @current_user.id)
   end
@@ -27,7 +28,10 @@ class URLShortener
   end
 
   def self.visits_since_10_mins(short_url)
-    VisitsPerUser.find(:all, :conditions => ['visits_per_users.created_at > ? AND short_url_id = ?', 10.minutes.ago, ShortURL.find_by_short_url(short_url).id]).length
+    short_id = ShortURL.find_by_short_url(short_url).id
+    VisitsPerUser.find(:all,
+      :conditions => ['visits_per_users.created_at > ? AND short_url_id = ?',
+      10.minutes.ago, short_id]).length
   end
 
   def self.add_comment(shortened)
